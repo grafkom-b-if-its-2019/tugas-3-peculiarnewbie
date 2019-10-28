@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Belajar WebGL</title>
+</head>
+<body>
+  <canvas id="glcanvas" width="640" height="640">
+    Browser Anda tidak mendukung HTML5 <code>&lt;canvas&gt;</code>.
+  </canvas>
+
+  <!-- Shaders -->
+  <script name="shader" data-src="vertexH.glsl" data-type="vertex" data-version="v1"></script>
+  <script name="shader" data-src="fragmentH.glsl" data-type="fragment" data-version="v1"></script>
+
+  <script name="shader" data-src="vertexL.glsl" data-type="vertex" data-version="v2"></script>
+  <script name="shader" data-src="fragmentL.glsl" data-type="fragment" data-version="v2"></script>
+
+  <script name="shader" data-src="vertexC.glsl" data-type="vertex" data-version="v3"></script>
+  <script name="shader" data-src="fragmentC.glsl" data-type="fragment" data-version="v3"></script>
+
+  <!-- Library untuk men-dispatch methods -->
+  <script type="text/javascript" src="libs/signals.js"></script>
+
+  <!-- JavaScript untuk menghubungkan ke WebGL -->
+  <script type="text/javascript" src="libs/glUtils.js"></script>
+
+  <!-- JavaScript utama kita -->
+  <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
