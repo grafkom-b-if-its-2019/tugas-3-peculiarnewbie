@@ -64,18 +64,20 @@
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   
-    var thetaT = [30,60,0];
+    var thetaT = [0.003,0.006,0];
     var scale = [1,1,0]
     var size = 0.2
     var vec = [0,0,0]
     var dX = 0.0098;
     var dY = -0.0089;
     var dZ = 0.0042;
+    var dYY = 0.4
+    var dXX = 0.5
     var pseudoRotation = 1;
     var squishX = 1;
     var AnimKeyFrame = 0;
     var Frame = 0;
-    var NRP = 0.0089; // <- NRP
+    var NRP = 0.000089; // <- NRP
 
 
     function DrawTriangles() {
@@ -142,22 +144,22 @@
       // Bersihkan layar jadi hitam
       
       
-       thetaT[3] += Math.PI * NRP / 2; 
+       thetaT[2] += Math.PI * NRP / 200; 
       
-      scale[1] = (Math.sin(thetaT[3]*6))/2+0.75;
+      scale[1] = (Math.sin(thetaT[2]*6))/2+0.75;
 
-      squishX = -(Math.sin(thetaT[3]*6))/4*3+1;
+      squishX = -(Math.sin(thetaT[2]*6))/4*3+1;
       
       scale[0] = squishX;
 
       if (scale[0] >= 1) membesar = -1;
       else if (scale[0] <= -1) membesar = 1;
-      pseudoRotation = Math.sin(thetaT[3]*12+1.2) ;
+      pseudoRotation = Math.sin(thetaT[2]*12+1.2) ;
 
       // dX += 0.01;
       // if(dX>1.5) dX = -2.0;
       if(scale[1]>=0.77){
-        dY = Math.abs(Math.sin(thetaT[3]*6))/2-0.7;
+        dYY = Math.abs(Math.sin(thetaT[2]*6))/2-0.7;
         scale[0] = pseudoRotation;
       }
 
@@ -190,7 +192,7 @@
       // console.log(Frame);
       // console.log(theta);
 
-      //gl.uniform1f(thetaLoc, theta);
+      gl.uniform3fv(thetaLoc, thetaT);
 
       gl.uniform3fv(scaleLoc, scale);
 
@@ -204,12 +206,12 @@
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-    var thetaT2 = [30,60,0];
+    var thetaT2 = [0.003,0.006,0]
     var size2 = 0.2
     var scale2 = [1,1,0]
     var vec2 = [0,0,0]
     var dX2 = 0.0098;
-    var dY2 = -0.0089;
+    var dY2 = -0.089;
     var dZ2 = 0.0042;
     var pseudoRotation = 1;
     var squishX = 1;
@@ -219,11 +221,11 @@
 
       
 
-      var thetaLoc2 = gl.getUniformLocation(program, 'theta');
+      var thetaLoc2 = gl.getUniformLocation(program2, 'theta');
       
-      var scaleLoc2 = gl.getUniformLocation(program, 'size');
+      var scaleLoc2 = gl.getUniformLocation(program2, 'size');
       
-      var dLoc2 = gl.getUniformLocation(program, 'vec');
+      var dLoc2 = gl.getUniformLocation(program2, 'vec');
       
       
 
@@ -257,25 +259,25 @@
       gl.vertexAttribPointer(vColor, 3, gl.FLOAT, gl.FALSE, 
         5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
 
-        thetaT2 += NRP;
-        dY2 = Math.abs(Math.sin(thetaT2*6))/2-0.1;
+        thetaT2[0] += NRP / 100;
+        dY2 = Math.abs(Math.sin(thetaT2[0]*6))/2-0.1;
 
         //Hit the Wall
 
-      if(vec2[0] > 0.5*(1-size2) || vec2[0] < -0.5*(1-size2) ){
-        dX2 = dX2 * -1;
-      }
-      vec2[0] += dX2;
-
-      if(vec2[1] > 0.5*(1-size2) || vec2[1] < -0.5*(1-size2) ){
-        dY2 = dY2 * -1;
-      }
-      vec2[1] += dY2;
-
-      if(vec2[2] > 0.5*(1-size2) || vec2[2] < -0.5*(1-size2) ){
-        dZ2 = dZ2 * -1;
-      }
-      vec2[2] += dZ2;
+        if(vec2[0] > 0.5*(1-size2) || vec2[0] < -0.5*(1-size2) ){
+          dX2 = dX2 * -1;
+        }
+        vec2[0] += dX2;
+  
+        if(vec2[1] > 0.5*(1-size2) || vec2[1] < -0.5*(1-size2) ){
+          dY2 = dY2 * -1;
+        }
+        vec2[1] += dY2;
+  
+        if(vec2[2] > 0.5*(1-size2) || vec2[2] < -0.5*(1-size2) ){
+          dZ2 = dZ2 * -1;
+        }
+        vec2[2] += dZ2;
 
 
       gl.enableVertexAttribArray(vPosition);
@@ -305,7 +307,7 @@
     function DrawCube(){
 
       var thetaLocCube = gl.getUniformLocation(programC, 'theta');
-      var thetaCube = [30, 60, 0];
+      var thetaCube = [10, 30, 0];
       
 
       var cubeVertices = [
